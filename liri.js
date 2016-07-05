@@ -1,17 +1,16 @@
 var request = require('./keys.js');
 var Twitter = require('twitter');
 
-var client = new Twitter({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-});
+var client = new Twitter(request.twitterKeys);
 
+var task = process.argv[2];
 
-client.get('statuses/user_timeline', {count: 20}, function(error, tweet, response){
+if (task == 'my-tweets') {
+var params = {screen_name: 'smgalante', count: 20};
+client.get('statuses/user_timeline', params, function(error, tweets, response){
+	console.log(error);
 	if(!error){
-		console.log(tweet);
+		console.log(tweets);
 	}
-
 });
+};
